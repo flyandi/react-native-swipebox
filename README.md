@@ -10,7 +10,7 @@ A simple swipe box component
 **React Native >= 0.49**
 
 ```bash
-yarn add react-native-optiongroup
+yarn add react-native-swipebox
 ```
 
 ## Attributes

@@ -22,15 +22,7 @@
   "bugs": {
     "url": "https://github.com/flyandi/react-native-swipebox/issues"
   },
-  "scripts": {
-    "test": "jest"
-  },
-  "jest": {
-    "preset": "react-native"
-  },
   "homepage": "https://github.com/flyandi/react-native-swipebox#readme",
-  "devDependencies": {
-  },
   "dependencies": {
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0"
