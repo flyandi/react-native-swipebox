@@ -1,0 +1,38 @@
+{
+  "name": "react-native-swipebox",
+  "version": "0.0.1",
+  "description": "A simple swipe box component for React Native",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flyandi/react-native-swipebox.git"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "react-native",
+    "swipebox",
+    "react-component"
+  ],
+  "author": "Andy Schwarz <flyandi@yahoo.com> (http://flyandi.net)",
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/flyandi/react-native-swipebox/blob/master/LICENSE"
+  },
+  "bugs": {
+    "url": "https://github.com/flyandi/react-native-swipebox/issues"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "homepage": "https://github.com/flyandi/react-native-swipebox#readme",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "prop-types": "^15.6.0"
+  }
+}
