@@ -9,16 +9,8 @@ import { StyleSheet} from 'react-native';
  */
 export default props => StyleSheet.create({
 
-    pickerContainer: {
-        flexDirection: 'row',
-        overflow: 'hidden',
-        flex: 1,
-        margin: props.margin,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
 
-    pickerBoxContainer: {
+    swipeBoxContainer: {
         overflow: 'hidden',
         margin: 10,
         height: props.height,
@@ -28,7 +20,7 @@ export default props => StyleSheet.create({
         backgroundColor: props.backgroundColor,
     },
 
-    pickerBox: {
+    swipeBox: {
         flex: 0,
         height: props.height,
         width: props.width,
@@ -36,9 +28,9 @@ export default props => StyleSheet.create({
         alignItems: 'center',
     },
 
-    pickerBoxText: {
+    swipeBoxText: {
         color: props.textColor,
-        fontSize: props.panelSize * 0.5,
+        fontSize: props.fontSize || props.panelSize * 0.5,
     }
 
 });

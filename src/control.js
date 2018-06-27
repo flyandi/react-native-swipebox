@@ -21,12 +21,15 @@ export default class SwipeBox extends Component {
         borderColor: PropTypes.string,
         borderWidth: PropTypes.number,
         borderRadius: PropTypes.number,
-        textColor: PropTypes.number,
+        textColor: PropTypes.string,
+        fontSize: PropTypes.number,
         style: PropTypes.any,
+        onChange: PropTypes.func,
         onSwipeUp: PropTypes.func,
         onSwipeDown: PropTypes.func,
         width: PropTypes.number,
         height: PropTypes.number,
+        size: PropTypes.number,
         tiles: PropTypes.array,
         velocityThreshold: PropTypes.number,
         directionalOffsetThreshold: PropTypes.number
@@ -38,29 +41,21 @@ export default class SwipeBox extends Component {
      */
     static defaultProps = {
         backgroundColor: '#828186',
-        borderColor: '#828186',
-        borderWidth: 1,
+        borderColor: undefined,
+        borderWidth: undefined,
         borderRadius: 3,
         textColor: '#FFFFFF',
+        fontSize: undefined,
         style: {},
-        width: 120,
-        height: 120,
+        width: undefined,
+        height: undefined,
+        size: 120,
         tiles: [],
         velocityThreshold: 0.3,
         directionalOffsetThreshold: 80
-    }
-
-    /**
-     * isValidSwipe
-     * @param velocity
-     * @param velocityThreshold
-     * @param directionalOffset
-     * @param directionalOffsetThreshold
-     * @returns {boolean}
-     */
-    static isValidSwipe = (velocity, velocityThreshold, directionalOffset, directionalOffsetThreshold) =>
-    {
-        return Math.abs(velocity) > velocityThreshold && Math.abs(directionalOffset) < directionalOffsetThreshold;
+        onChange: undefined,
+        onSwipeUp: undefined,
+        onSwipeDown: undefined,
     }
 
     /**
@@ -71,13 +66,16 @@ export default class SwipeBox extends Component {
     {
         super(props, context);
 
-        this.panelSize = this.props.height > this.props.width ? this.props.height : this.props.width;
+        this.width = this.props.width || this.props.size;
+        this.height = this.props.height || this.props.size;
+        this.panelSize = this.height > this.width ? this.height : this.width;
 
         this.state = {
             bounceValue: new Animated.Value(0),
         };
 
         this.currentPosition = 0;
+        this.currentTileIndex = 0;
     }
 
     /**
@@ -119,19 +117,34 @@ export default class SwipeBox extends Component {
         if(this.isValidDirectionSwipe(gestureState)) {
 
             let toValue = this.currentPosition;
+            let toIndex = this.currentIndex;
 
             if( dy > 0) {
                 toValue -= this.panelSize;
+                toIndex += 1;
+
+                this.props.onSwipeUp && this.props.onSwipeUp();
+
             } else {
                 toValue += this.panelSize;
+                toIndex -= 1;
+
+                this.props.onSwipeDown && this.props.onSwipeDown();
             }
 
-            if(toValue > 0) toValue = 0;
+            if(toValue > 0) {
+                toValue = 0;
+                toIndex = 0;
+            }
 
-            const max = -1 * (this.props.tiles.length - 1) * this.props.panelSize;
-            if(toValue <= max) toValue = max;
+            const max = -1 * (this.props.tiles.length - 1) * this.panelSize;
+            if(toValue <= max) {
+                toValue = max;
+                toIndex = this.props.tiles.length - 1;
+            }
 
             this.currentPosition = toValue;
+            this.currentIndex = toIndex;
 
             Animated.spring(
                 this.state.bounceValue,
@@ -141,7 +154,9 @@ export default class SwipeBox extends Component {
                     tension: 2,
                     friction: 8,
                 }
-            ).start();
+            ).start(() => {
+                this.props.onChange && this.props.onChange(this.currentIndex);
+            });
         }
     }
 
@@ -161,7 +176,20 @@ export default class SwipeBox extends Component {
     isValidDirectionSwipe(gestureState)
     {
         const {vy, dx} = gestureState;
-        return PickerBox.isValidSwipe(vy, this.props.velocityThreshold, dx, this.props.directionalOffsetThreshold);
+        return this.isValidSwipe(vy, this.props.velocityThreshold, dx, this.props.directionalOffsetThreshold);
+    }
+
+    /**
+     * isValidSwipe
+     * @param velocity
+     * @param velocityThreshold
+     * @param directionalOffset
+     * @param directionalOffsetThreshold
+     * @returns {boolean}
+     */
+    isValidSwipe(velocity, velocityThreshold, directionalOffset, directionalOffsetThreshold)
+    {
+        return Math.abs(velocity) > velocityThreshold && Math.abs(directionalOffset) < directionalOffsetThreshold;
     }
 
     /**
@@ -173,11 +201,12 @@ export default class SwipeBox extends Component {
         const styles = Styles(_.extend(
             {},
             this.props,
-            {panelSize: this.panelSize}
+            this.props.style ? this.props.style : {},
+            {width: this.props.size, height: this.props.size, panelSize: this.panelSize},
         ));
 
         return (
-            <View style={styles.pickerBoxContainer} {...this.responders.panHandlers}>
+            <View style={styles.swipeBoxContainer} {...this.responders.panHandlers}>
                 <Animated.View
                     style={[
                         {transform: [{translateY: this.state.bounceValue}]}
@@ -187,9 +216,9 @@ export default class SwipeBox extends Component {
                     {this.props.tiles.map((item, index) => {
 
                         return (
-                            <View key={index} style={styles.pickerBox}>
+                            <View key={index} style={styles.swipeBox}>
                                 {React.isValidElement(item) ? item : (
-                                    <Text style={styles.pickerBoxText}>{item}</Text>
+                                    <Text style={styles.swipeBoxText}>{item}</Text>
                                 )}
                             </View>
                         )
@@ -200,4 +229,3 @@ export default class SwipeBox extends Component {
         );
     }
 }
-
