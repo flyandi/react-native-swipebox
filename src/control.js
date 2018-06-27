@@ -52,7 +52,7 @@ export default class SwipeBox extends Component {
         size: 120,
         tiles: [],
         velocityThreshold: 0.3,
-        directionalOffsetThreshold: 80
+        directionalOffsetThreshold: 80,
         onChange: undefined,
         onSwipeUp: undefined,
         onSwipeDown: undefined,
