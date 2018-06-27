@@ -171,7 +171,9 @@ export default class PickerBox extends Component {
     render()
     {
         const styles = Styles(_.extend(
-            this.props
+            {},
+            this.props,
+            {panelSize: this.panelSize}
         ));
 
         return (
