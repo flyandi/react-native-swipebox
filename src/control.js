@@ -155,7 +155,7 @@ export default class SwipeBox extends Component {
                     friction: 8,
                 }
             ).start(() => {
-                this.props.onChange && this.props.onChange(this.currentIndex);
+                this.props.onChange && this.props.onChange(this.currentIndex, this.props.tiles[this.currentIndex]);
             });
         }
     }

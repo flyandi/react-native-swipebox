@@ -33,7 +33,7 @@ yarn add react-native-swipebox
 
 | Prop | Description |
 |---|---|
-|**`onChange`**|Executed when the tile was changed.|
+|**`onChange`**|Executed when the tile was changed. Passes the index in the tiles array and the actual value|
 |**`onSwipeDown`**|Executed when the user swipes down.|
 |**`onSwipeUp`**|Executed when the user swipes up.|
 
@@ -52,7 +52,7 @@ import SwipeBox from 'react-native-swipebox';
 ```es6
 <SwipeBox
     tiles={[12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
-    onChange={(value) => console.log(value)}
+    onChange={(index, value) => console.log(index, value)}
 />
 ```
 
@@ -65,7 +65,7 @@ import SwipeBox from 'react-native-swipebox';
         <Image source={{url: 'ok.png'}} />,
         <Image source={{url: 'cancel.png'}} />,
     ]}
-    onChange={(value) => console.log(value)}
+    onChange={(index, value) => console.log(index, value)}
 />
 ```
 
