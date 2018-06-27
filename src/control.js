@@ -10,7 +10,7 @@ import Styles from './styles';
 /**
  * @component
  */
-export default class PickerBox extends Component {
+export default class SwipeBox extends Component {
 
     /**
      * propTypes
