@@ -28,6 +28,7 @@ yarn add react-native-swipebox
 |`number` **`size`**|The size of each tile. Used when `width` and `height` are not specified.|`120`|
 |`number` **`width`**|The width of each tile|`undefined`|
 |`number` **`height`**|The height of each tile|`undefined`|
+|`number` **`selectedIndex`**|The initial selected tile|`undefined`|
 
 ## Events
 
@@ -68,4 +69,23 @@ import SwipeBox from 'react-native-swipebox';
     onChange={(index, value) => console.log(index, value)}
 />
 ```
+
+**Select tile**
+
+```es6
+ <SwipeBox
+    tiles={[12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+    selectedIndex={4}
+    onChange={(index, value) => console.log(index, value)}
+/>
+```
+
+## Components
+
+Other components that are using this component: 
+
+[react-native-swipetimepicker](https://github.com/flyandi/react-native-swipetimepicker) - A elegant and simple time picker.
+
+
+
 
