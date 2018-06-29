@@ -23,8 +23,9 @@ yarn add react-native-swipebox
 |`number` **`borderRadius`**|Specifies the border radius of the component|`3`|
 |`string` **`textColor`**|The text color used when strings are rendered|`#ffffff`|
 |`number` **`fontSize`**|The font size of the text|`auto`|
+|`string` **`fontFamily`**|The font family of the text|`undefined`|
 |`array/object` **`tiles`**|An array or component object of the tiles to be rendered|`required`|
-|`object` **`style`**|A standard style object, refer below for more information|`undefined`|
+|`object` **`style`**|A standard style object - will be applied to the main view|`undefined`|
 |`number` **`size`**|The size of each tile. Used when `width` and `height` are not specified.|`120`|
 |`number` **`width`**|The width of each tile|`undefined`|
 |`number` **`height`**|The height of each tile|`undefined`|
