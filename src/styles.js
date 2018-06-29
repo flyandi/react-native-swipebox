@@ -12,7 +12,6 @@ export default props => StyleSheet.create({
 
     swipeBoxContainer: {
         overflow: 'hidden',
-        margin: 10,
         height: props.height,
         width: props.width,
         backgroundColor: props.backgroundColor,

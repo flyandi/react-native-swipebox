@@ -23,6 +23,7 @@ export default class SwipeBox extends Component {
         borderRadius: PropTypes.number,
         textColor: PropTypes.string,
         fontSize: PropTypes.number,
+        fontFamily: PropTypes.string,
         style: PropTypes.any,
         onChange: PropTypes.func,
         onSwipeUp: PropTypes.func,
@@ -32,7 +33,8 @@ export default class SwipeBox extends Component {
         size: PropTypes.number,
         tiles: PropTypes.array,
         velocityThreshold: PropTypes.number,
-        directionalOffsetThreshold: PropTypes.number
+        directionalOffsetThreshold: PropTypes.number,
+        selectedIndex: PropTypes.number,
     }
 
     /**
@@ -46,6 +48,7 @@ export default class SwipeBox extends Component {
         borderRadius: 3,
         textColor: '#FFFFFF',
         fontSize: undefined,
+        fontFamily: undefined,
         style: {},
         width: undefined,
         height: undefined,
@@ -56,6 +59,7 @@ export default class SwipeBox extends Component {
         onChange: undefined,
         onSwipeUp: undefined,
         onSwipeDown: undefined,
+        selectedIndex: undefined,
     }
 
     /**
@@ -70,12 +74,13 @@ export default class SwipeBox extends Component {
         this.height = this.props.height || this.props.size;
         this.panelSize = this.height > this.width ? this.height : this.width;
 
+        this.currentPosition = this.props.selectedIndex ? (-1 * this.panelSize * this.props.selectedIndex) : 0;
+        this.currentIndex = this.props.selectedIndex || 0;
+
         this.state = {
-            bounceValue: new Animated.Value(0),
+            bounceValue: new Animated.Value(this.currentPosition),
         };
 
-        this.currentPosition = 0;
-        this.currentTileIndex = 0;
     }
 
     /**
@@ -154,9 +159,9 @@ export default class SwipeBox extends Component {
                     tension: 2,
                     friction: 8,
                 }
-            ).start(() => {
-                this.props.onChange && this.props.onChange(this.currentIndex, this.props.tiles[this.currentIndex]);
-            });
+            ).start();
+
+            this.props.onChange && this.props.onChange(this.currentIndex, this.props.tiles[this.currentIndex]);
         }
     }
 
@@ -201,12 +206,11 @@ export default class SwipeBox extends Component {
         const styles = Styles(_.extend(
             {},
             this.props,
-            this.props.style ? this.props.style : {},
             {width: this.props.size, height: this.props.size, panelSize: this.panelSize},
         ));
 
         return (
-            <View style={styles.swipeBoxContainer} {...this.responders.panHandlers}>
+            <View style={[styles.swipeBoxContainer, this.props.style]} {...this.responders.panHandlers}>
                 <Animated.View
                     style={[
                         {transform: [{translateY: this.state.bounceValue}]}
